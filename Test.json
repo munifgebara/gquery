@@ -43,10 +43,8 @@
             "criteria": {
                 "field": "name",
                 "comparisonOperator": "CONTAINS",
-                "value": "gebara",
-                "values": null,
-                "fieldFunction": "%s",
-                "valueFunction": "%s"
+                "value": "gebara"
+
             },
             "subQuerys": null
         }]
