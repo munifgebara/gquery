@@ -1,0 +1,53 @@
+{
+    "logicalOperator": "AND",
+    "criteria": null,
+    "subQuerys": [{
+            "logicalOperator": "OR",
+            "criteria": null,
+            "subQuerys": [{
+                    "logicalOperator": "SIMPLE",
+                    "criteria": {
+                        "field": "name",
+                        "comparisonOperator": "STARTS_WITH",
+                        "value": "munif",
+                        "values": null,
+                        "fieldFunction": "%s",
+                        "valueFunction": "%s"
+                    },
+                    "subQuerys": null
+                }, {
+                    "logicalOperator": "SIMPLE",
+                    "criteria": {
+                        "field": "name",
+                        "comparisonOperator": "STARTS_WITH",
+                        "value": "vicente",
+                        "values": null,
+                        "fieldFunction": "%s",
+                        "valueFunction": "%s"
+                    },
+                    "subQuerys": null
+                }, {
+                    "logicalOperator": "SIMPLE",
+                    "criteria": {
+                        "field": "name",
+                        "comparisonOperator": "STARTS_WITH",
+                        "value": "duda",
+                        "values": null,
+                        "fieldFunction": "%s",
+                        "valueFunction": "%s"
+                    },
+                    "subQuerys": null
+                }]
+        }, {
+            "logicalOperator": "SIMPLE",
+            "criteria": {
+                "field": "name",
+                "comparisonOperator": "CONTAINS",
+                "value": "gebara",
+                "values": null,
+                "fieldFunction": "%s",
+                "valueFunction": "%s"
+            },
+            "subQuerys": null
+        }]
+}

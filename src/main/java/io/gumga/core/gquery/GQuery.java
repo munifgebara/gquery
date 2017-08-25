@@ -1,12 +1,15 @@
 package io.gumga.core.gquery;
 
+import java.io.Serializable;
+import java.util.Arrays;
+import java.util.LinkedList;
 import java.util.List;
 
 /**
  *
  * @author munif
  */
-public class GQuery {
+public class GQuery implements Serializable {
 
     private LogicalOperator logicalOperator;
     private Criteria criteria;
@@ -37,6 +40,67 @@ public class GQuery {
         this.subQuerys = subQuerys;
     }
 
+    public LogicalOperator getLogicalOperator() {
+        return logicalOperator;
+    }
+
+    public void setLogicalOperator(LogicalOperator logicalOperator) {
+        this.logicalOperator = logicalOperator;
+    }
+
+    public Criteria getCriteria() {
+        return criteria;
+    }
+
+    public void setCriteria(Criteria criteria) {
+        this.criteria = criteria;
+    }
+
+    public List<GQuery> getSubQuerys() {
+        return subQuerys;
+    }
+
+    public void setSubQuerys(List<GQuery> subQuerys) {
+        this.subQuerys = subQuerys;
+    }
+
+    public GQuery and(GQuery other) {
+        if (LogicalOperator.AND.equals(this.logicalOperator)) {
+            this.subQuerys.add(other);
+            return this;
+        }
+        return new GQuery(LogicalOperator.AND, Arrays.asList(new GQuery[]{this, other}));
+    }
+
+    public GQuery or(GQuery other) {
+        if (LogicalOperator.OR.equals(this.logicalOperator)) {
+            this.subQuerys = new LinkedList<>(subQuerys);
+            this.subQuerys.add(other);
+            return this;
+        }
+        return new GQuery(LogicalOperator.OR, Arrays.asList(new GQuery[]{this, other}));
+    }
+
+    public GQuery and(Criteria criteria) {
+        GQuery other = new GQuery(criteria);
+        if (LogicalOperator.AND.equals(this.logicalOperator)) {
+            this.subQuerys = new LinkedList<>(subQuerys);
+            this.subQuerys.add(other);
+            return this;
+        }
+        return new GQuery(LogicalOperator.AND, Arrays.asList(new GQuery[]{this, other}));
+    }
+
+    public GQuery or(Criteria criteria) {
+        GQuery other = new GQuery(criteria);
+        if (LogicalOperator.OR.equals(this.logicalOperator)) {
+            this.subQuerys = new LinkedList<>(subQuerys);
+            this.subQuerys.add(other);
+            return this;
+        }
+        return new GQuery(LogicalOperator.OR, Arrays.asList(new GQuery[]{this, other}));
+    }
+
     @Override
     public String toString() {
         if (null != logicalOperator) {
@@ -52,7 +116,7 @@ public class GQuery {
                     }
                     String r = "(" + subQuerys.get(0);
                     for (int i = 1; i < subQuerys.size(); i++) {
-                        r += " "+logicalOperator.toString() + " " + subQuerys.get(i).toString();
+                        r += " " + logicalOperator.toString() + " " + subQuerys.get(i).toString();
                     }
                     r += ")";
                     return r;

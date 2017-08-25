@@ -61,4 +61,46 @@ public class GQueryTest {
         assertEquals("(((name like 'munif%') OR (name like 'vicente%') OR (name like 'duda%')) AND (name like '%gebara%'))", gQuery.toString());
     }
 
+    @Test
+    public void testFluent1() {
+        GQuery gQuery1 = new GQuery(LogicalOperator.OR, Arrays.asList(new GQuery[]{
+            new GQuery(new Criteria("name", ComparisonOperator.STARTS_WITH, "munif")),
+            new GQuery(new Criteria("name", ComparisonOperator.STARTS_WITH, "vicente")),
+            new GQuery(new Criteria("name", ComparisonOperator.STARTS_WITH, "duda"))
+        }));
+        GQuery gQuery2 = new GQuery(new Criteria("name", ComparisonOperator.CONTAINS, "gebara"));
+        GQuery gQuery = gQuery1.and(gQuery2);
+        assertEquals("(((name like 'munif%') OR (name like 'vicente%') OR (name like 'duda%')) AND (name like '%gebara%'))", gQuery.toString());
+    }
+
+    @Test
+    public void testFluent2() {
+        GQuery gQuery1 = new GQuery(LogicalOperator.OR, Arrays.asList(new GQuery[]{
+            new GQuery(new Criteria("name", ComparisonOperator.STARTS_WITH, "munif")),
+            new GQuery(new Criteria("name", ComparisonOperator.STARTS_WITH, "vicente")),
+            new GQuery(new Criteria("name", ComparisonOperator.STARTS_WITH, "duda"))
+        }));
+        GQuery gQuery2 = new GQuery(new Criteria("name", ComparisonOperator.CONTAINS, "gebara"));
+        GQuery gQuery = gQuery1.or(gQuery2);
+        assertEquals("((name like 'munif%') OR (name like 'vicente%') OR (name like 'duda%') OR (name like '%gebara%'))", gQuery.toString());
+    }
+
+    @Test
+    public void testFluent3() {
+        GQuery gQuery = new GQuery(new Criteria("name", ComparisonOperator.STARTS_WITH, "munif"))
+                .or(new Criteria("name", ComparisonOperator.STARTS_WITH, "vicente"))
+                .or(new Criteria("name", ComparisonOperator.STARTS_WITH, "duda"))
+                .or(new Criteria("name", ComparisonOperator.CONTAINS, "gebara"));
+        assertEquals("((name like 'munif%') OR (name like 'vicente%') OR (name like 'duda%') OR (name like '%gebara%'))", gQuery.toString());
+    }
+
+    @Test
+    public void testFluent4() {
+        GQuery gQuery = new GQuery(new Criteria("name", ComparisonOperator.STARTS_WITH, "munif"))
+                .or(new Criteria("name", ComparisonOperator.STARTS_WITH, "vicente"))
+                .or(new Criteria("name", ComparisonOperator.STARTS_WITH, "duda"))
+                .and(new Criteria("name", ComparisonOperator.CONTAINS, "gebara"));
+        assertEquals("(((name like 'munif%') OR (name like 'vicente%') OR (name like 'duda%')) AND (name like '%gebara%'))", gQuery.toString());
+    }
+
 }

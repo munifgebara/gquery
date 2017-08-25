@@ -1,17 +1,28 @@
 package io.gumga.core.gquery;
 
-public class Criteria {
+import java.io.Serializable;
+
+public class Criteria implements Serializable{
 
     private String field;
     private ComparisonOperator comparisonOperator;
     private String value;
     private String[] values;
+    private String fieldFunction;
+    private String valueFunction;
+
+    private void init() {
+        comparisonOperator = ComparisonOperator.EQUAL;
+        fieldFunction = "%s";
+        valueFunction = "%s";
+    }
 
     public Criteria() {
-        comparisonOperator = ComparisonOperator.EQUAL;
+        init();
     }
 
     public Criteria(String field, ComparisonOperator comparisonOperator, String value) {
+        init();
         this.field = field;
         this.comparisonOperator = comparisonOperator;
         this.value = value;
@@ -49,6 +60,22 @@ public class Criteria {
         this.values = values;
     }
 
+    public String getFieldFunction() {
+        return fieldFunction;
+    }
+
+    public void setFieldFunction(String fieldFunction) {
+        this.fieldFunction = fieldFunction;
+    }
+
+    public String getValueFunction() {
+        return valueFunction;
+    }
+
+    public void setValueFunction(String valueFunction) {
+        this.valueFunction = valueFunction;
+    }
+
     @Override
     public String toString() {
         String value = this.value;
@@ -59,7 +86,7 @@ public class Criteria {
         } else if (ComparisonOperator.CONTAINS.equals(this.comparisonOperator)) {
             value = "%" + value + "%";
         }
-        return field + comparisonOperator.hql + '\'' + value + '\'';
+        return String.format(fieldFunction, field) + comparisonOperator.hql + String.format(valueFunction, '\'' + value + '\'');
     }
 
 }
