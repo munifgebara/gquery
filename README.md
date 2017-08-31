@@ -1,6 +1,6 @@
 # gquery
 
-
+```
  *
  * @author munif
  */
@@ -22,3 +22,4 @@ public class QueriesService {
 
 }
 
+```
